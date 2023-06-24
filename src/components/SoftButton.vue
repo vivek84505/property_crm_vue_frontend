@@ -1,7 +1,8 @@
 <template>
   <button
-    class="btn mb-0"
+    class="btn mb-0" 
     :class="getClasses(variant, color, size, fullWidth, active)"
+    :disabled="isDisabled"
   >
     <slot />
   </button>
@@ -11,6 +12,10 @@
 export default {
   name: "SoftButton",
   props: {
+    isDisabled: {
+      type: Boolean,
+      default: false
+    },
     color: {
       type: String,
       default: "success",

@@ -71,6 +71,7 @@ export default {
           ref.loading = true;
 
           const data = response.data.returnval;
+          console.log("data===>", data);
 
           const results = [];
           for (const id in data) {
@@ -112,6 +113,9 @@ export default {
   getters: {
     getUsersAll(state) {
       return state.users;
+    },
+    getUserByID: (state) => (userid) => {
+      return state.users.find((user) => user.user_id === userid) || null;
     },
     getalertData(state) {
       return state.alertData;

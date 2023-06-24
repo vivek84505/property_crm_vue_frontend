@@ -30,7 +30,11 @@
               >
                 Employed
               </th>
-              <th class="text-secondary opacity-7"></th>
+              <th
+                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+              >
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -70,13 +74,12 @@
                 }}</span>
               </td>
               <td class="align-middle">
-                <a
-                  href="javascript:;"
-                  class="text-secondary font-weight-bold text-xs"
-                  data-toggle="tooltip"
-                  data-original-title="Edit user"
-                  >Edit</a
+                <button
+                  class="btn mb-0 bg-gradient-success btn-md w-50 null my-2 mb-1"
+                  @click="openEdituserForm(user.user_id)"
                 >
+                  Edit
+                </button>
               </td>
             </tr>
           </tbody>
@@ -99,6 +102,7 @@ import img6 from "../../../assets/img/team-4.jpg";
 export default {
   name: "users-table",
   props: ["userlist"],
+  emits: ["open-edit-user-form"],
   data() {
     return {
       img1,
@@ -111,6 +115,11 @@ export default {
   },
   computed() {
     console.log("child userlist=======>", this.userlist);
+  },
+  methods: {
+    openEdituserForm(userid) {
+      this.$emit("open-edit-user-form", userid);
+    },
   },
   components: {
     SoftAvatar,

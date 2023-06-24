@@ -21,6 +21,7 @@ import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 import SoftUIDashboard from "./soft-ui-dashboard";
 import Notifications from "@kyvg/vue3-notification";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const appInstance = createApp(App);
 appInstance.use(store);
