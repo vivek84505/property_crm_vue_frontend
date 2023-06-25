@@ -50,7 +50,7 @@ export default {
               showSuccessMessage: true,
               alertMessage: response.data.returnmsg,
             };
-            console.log("form sucess");
+
             commit("setAlertData", alertObj);
             commit("addNewUser", response.data);
           } else {
@@ -100,7 +100,6 @@ export default {
         });
     },
     async fetchUsersAll({ commit }) {
-      let ref = this;
       await axios({
         method: "post",
         url: "http://localhost:8081/api/v1/getusers",
@@ -108,10 +107,7 @@ export default {
         headers: { "Content-Type": "application/json" },
       })
         .then(function (response) {
-          ref.loading = true;
-
           const data = response.data.returnval;
-          console.log("data===>", data);
 
           const results = [];
           for (const id in data) {
@@ -129,9 +125,8 @@ export default {
               city: data[id].city,
               created_date: createdDate,
             });
-            commit("SetUsers", results);
-            // state.users = results;
           }
+          commit("SetUsers", results);
         })
         .catch(function (response) {
           //handle error

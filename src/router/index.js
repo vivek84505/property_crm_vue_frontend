@@ -9,6 +9,7 @@ import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
 // import Users from "@/views/";
 import Users from "@/views/components/Users/Users.vue";
+import Leadsource from "@/views/components/Leadsource/Leadsource.vue";
 // @/views/components/Users/Users.vue
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/users",
     name: "Users",
     component: Users,
+  },
+  {
+    path: "/leadsource",
+    name: "Leadsource",
+    component: Leadsource,
   },
   {
     path: "/billing",

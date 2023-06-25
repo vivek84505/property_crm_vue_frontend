@@ -26,6 +26,13 @@
         </sidenav-collapse>
       </li>
       <li class="nav-item">
+        <sidenav-collapse navText="LeadSource" :to="{ name: 'Leadsource' }">
+          <template #icon>
+            <office />
+          </template>
+        </sidenav-collapse>
+      </li>
+      <li class="nav-item">
         <sidenav-collapse navText="Billing" :to="{ name: 'Billing' }">
           <template #icon>
             <credit-card />

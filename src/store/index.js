@@ -1,9 +1,11 @@
 import { createStore } from "vuex";
 import bootstrap from "bootstrap/dist/js/bootstrap.min.js";
 import users from "./modules/users";
+import leadsource from "./modules/leadsource";
 export default createStore({
   modules: {
     users,
+    leadsource,
   },
   state: {
     hideConfigButton: false,
