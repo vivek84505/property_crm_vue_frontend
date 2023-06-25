@@ -188,7 +188,7 @@
                   :to="{ name: 'Sign In' }"
                   class="text-dark font-weight-bolder"
                 >
-                  Sign in
+                  sdsSign in
                 </router-link>
               </p>
             </form>

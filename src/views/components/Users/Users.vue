@@ -29,14 +29,6 @@
         <UsersAddForm @adduserform="adduserform" v-if="showAddUserForm" />
       </div>
 
-      <!-- <div class="col-12">
-        <UserEditForm
-          @edituserform="edituserform"
-          :edituserdata="edituserdata"
-          v-if="showEditUserForm"
-        />
-      </div> -->
-
       <div class="col-12">
         <users-table
           @open-edit-user-form="openEdituserForm"
@@ -48,6 +40,7 @@
     <UserEdit
       :userEditObj="userEditObj"
       @close-edit-model="closeEditModel"
+      @edituserform="edituserform"
       v-if="showEditUserForm"
     >
     </UserEdit>
@@ -65,14 +58,16 @@
 </template>
 
 <script>
-import UsersTable from "./components/Users/UsersTable.vue";
-import UsersAddForm from "./components/Users/UsersAddForm.vue";
+import UsersTable from "./UsersTable.vue";
+import UsersAddForm from "./UsersAddForm.vue";
 // import UserEditForm from "./components/Users/UserEditForm.vue";
-import UserEdit from "./components/Users/UserEdit.vue";
+import UserEdit from "./UserEdit.vue";
 // import ProjectsTable from "./components/ProjectsTable";
 // import SoftModelInput from "@/components/SoftModelInput.vue";
 import { mapState, mapActions, mapGetters } from "vuex";
-import SoftAlert from "../components/SoftAlert.vue";
+// import SoftAlert from "../components/SoftAlert.vue";
+
+import SoftAlert from "../../../components/SoftAlert.vue";
 export default {
   name: "tables",
   components: {
@@ -121,7 +116,12 @@ export default {
   },
 
   methods: {
-    ...mapActions("users", ["fetchUsersAll", "addUser", "resetAlertData"]),
+    ...mapActions("users", [
+      "fetchUsersAll",
+      "addUser",
+      "resetAlertData",
+      "updateUser",
+    ]),
     showAlerts() {
       setTimeout(() => {
         this.resetAlertData();
@@ -134,13 +134,14 @@ export default {
       console.log("this main alertData=======>", this.alertData);
     },
     async edituserform(payload) {
-      console.log("payload=======>", payload);
+      payload.user_id = payload.user_id.toString();
+      this.updateUser(payload);
+      // this.fetchUsersAll();
+      this.showAlerts();
     },
     openEdituserForm(userid) {
       this.userEditObj = this.getUserByID(userid);
-
       this.showEditUserForm = !this.showEditUserForm;
-      console.log("this.userEditObj=======>", this.userEditObj);
     },
     closeEditModel() {
       this.showEditUserForm = !this.showEditUserForm;

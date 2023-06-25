@@ -7,7 +7,9 @@ import Profile from "@/views/Profile.vue";
 import Rtl from "@/views/Rtl.vue";
 import SignIn from "@/views/SignIn.vue";
 import SignUp from "@/views/SignUp.vue";
-import Users from "@/views/Users.vue";
+// import Users from "@/views/";
+import Users from "@/views/components/Users/Users.vue";
+// @/views/components/Users/Users.vue
 const routes = [
   {
     path: "/",

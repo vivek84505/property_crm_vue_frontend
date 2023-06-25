@@ -73,12 +73,12 @@
                   user.created_date
                 }}</span>
               </td>
-              <td class="align-middle">
+              <td class="align-middle text-center">
                 <button
                   class="btn mb-0 bg-gradient-success btn-md w-50 null my-2 mb-1"
                   @click="openEdituserForm(user.user_id)"
                 >
-                  Edit
+                  <span class="d-inline-block text-center">Edit</span>
                 </button>
               </td>
             </tr>

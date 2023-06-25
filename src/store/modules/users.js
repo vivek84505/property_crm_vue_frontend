@@ -19,16 +19,25 @@ export default {
     },
     setAlertData(state, payload) {
       state.alertData = payload;
-      console.log("setAlertData called");
-      console.log("state.alertData", state.alertData);
     },
     resetAlertData(state, payload) {
       state.alertData = payload;
     },
+    updateUser(state, payload) {
+      const userIdToUpdate = payload.user_id; // Assuming the payload contains the user_id to update
+      const updatedUser = payload; // Assuming the payload contains the updated user data
+
+      const updatedUserIndex = state.users.findIndex(
+        (user) => user.user_id == userIdToUpdate
+      );
+      if (updatedUserIndex !== -1) {
+        // Update the user in the state.users array
+        state.users.splice(updatedUserIndex, 1, updatedUser);
+      }
+    },
   },
   actions: {
     async addUser({ commit }, payload) {
-      let ref = this;
       axios({
         method: "post",
         url: "http://localhost:8081/api/v1/adduser",
@@ -36,7 +45,6 @@ export default {
         headers: { "Content-Type": "application/json" },
       })
         .then(function (response) {
-          console.log("Add user Response======>", response);
           if (response.data.status.toLowerCase() == "sucess") {
             let alertObj = {
               showSuccessMessage: true,
@@ -53,7 +61,39 @@ export default {
 
             commit("setAlertData", alertObj);
           }
-          ref.showAlerts();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    async updateUser({ commit }, payload) {
+      // let ref = this;
+      console.log("edit payload", JSON.stringify(payload));
+      axios({
+        method: "post",
+        url: "http://localhost:8081/api/v1/updateuser",
+        data: payload,
+        headers: { "Content-Type": "application/json" },
+      })
+        .then(function (response) {
+          // console.log("Update user Response======>", response);
+          if (response.data.status.toLowerCase() == "sucess") {
+            let alertObj = {
+              showSuccessMessage: true,
+              alertMessage: response.data.returnmsg,
+            };
+
+            commit("setAlertData", alertObj);
+            commit("updateUser", payload);
+            // commit("addNewUser", response.data);
+          } else {
+            let alertObj = {
+              showErrorMessage: true,
+              alertMessage: response.data.returnmsg,
+            };
+
+            commit("setAlertData", alertObj);
+          }
         })
         .catch(function (error) {
           console.log(error);

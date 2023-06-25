@@ -80,7 +80,12 @@
 
               <div class="col-md-4 align-self-end">
                 <div class="text-center">
-                  <button class="btn btn-success btn-sm btn-lg">Update</button>
+                  <button
+                    @onclick="edituserform"
+                    class="btn btn-success btn-sm btn-lg"
+                  >
+                    Update
+                  </button>
                 </div>
               </div>
             </div>
@@ -94,7 +99,7 @@
 <script>
 export default {
   name: "UserEdit",
-  emits: ["close-edit-model"],
+  emits: ["close-edit-model", "edituserform"],
   props: ["userEditObj"],
   data() {
     return {
@@ -102,11 +107,23 @@ export default {
     };
   },
   mounted() {
-    this.usermodelEditobj = this.userEditObj;
+    console.log("this.userEditObj.user_id====>", this.userEditObj.user_id);
+
+    this.usermodelEditobj = {
+      firstname: this.userEditObj.firstname,
+      lastname: this.userEditObj.lastname,
+      email: this.userEditObj.email,
+      mobile: this.userEditObj.mobile,
+      userrole: this.userEditObj.userrole,
+      user_id: this.userEditObj.user_id,
+    };
   },
   methods: {
     closeEditModel() {
       this.$emit("close-edit-model");
+    },
+    edituserform() {
+      this.$emit("edituserform", this.usermodelEditobj);
     },
   },
 };
