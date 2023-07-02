@@ -19,7 +19,11 @@
               name="leadsource"
               class="form-control form-control-default"
             />
+            <span v-if="leadsourceErrors.leadsource" class="form-error">{{
+              this.leadsourceErrors.leadsource
+            }}</span>
           </div>
+
           <input
             type="hidden"
             name="createdby"
@@ -59,11 +63,26 @@ export default {
         leadsource: "",
         createdby: "admin@gmail.com",
       },
+      leadsourceErrors: {},
     };
   },
   methods: {
     addleadsourceform() {
-      this.$emit("addleadsourceform", this.leadsourceformdata);
+      this.leadsourceErrors = {};
+
+      if (!this.leadsourceformdata.leadsource) {
+        this.leadsourceErrors.leadsource = "Lead Source is required";
+      } else {
+        this.leadsourceErrors.leadsource = "";
+      }
+
+      const hasErrors = Object.values(this.leadsourceErrors).some(
+        (error) => error !== ""
+      );
+
+      if (!hasErrors) {
+        this.$emit("addleadsourceform", this.leadsourceformdata);
+      }
     },
   },
 

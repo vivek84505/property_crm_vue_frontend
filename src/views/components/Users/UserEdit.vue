@@ -25,6 +25,9 @@
                   name="firstname"
                   class="form-control form-control-default"
                 />
+                <span v-if="userEditformErrors.firstname" class="form-error"
+                  >{{ this.userEditformErrors.firstname }}
+                </span>
               </div>
               <div class="col-md-4">
                 <label>Lastname</label>
@@ -36,6 +39,9 @@
                   name="lastname"
                   class="form-control form-control-default"
                 />
+                <span v-if="userEditformErrors.lastname" class="form-error"
+                  >{{ this.userEditformErrors.lastname }}
+                </span>
               </div>
 
               <div class="col-md-4">
@@ -48,6 +54,9 @@
                   name="email"
                   class="form-control form-control-default"
                 />
+                <span v-if="userEditformErrors.email" class="form-error"
+                  >{{ this.userEditformErrors.email }}
+                </span>
               </div>
 
               <div class="col-md-4">
@@ -60,6 +69,9 @@
                   class="form-control form-control-default"
                   id="mobile"
                 />
+                <span v-if="userEditformErrors.mobile" class="form-error"
+                  >{{ this.userEditformErrors.mobile }}
+                </span>
               </div>
 
               <div class="col-md-4">
@@ -76,6 +88,9 @@
                   <option value="superadmin">Super Admin</option>
                   <option value="user">User</option>
                 </select>
+                <span v-if="userEditformErrors.userrole" class="form-error"
+                  >{{ this.userEditformErrors.userrole }}
+                </span>
               </div>
 
               <div class="col-md-4 align-self-end">
@@ -104,26 +119,91 @@ export default {
   data() {
     return {
       usermodelEditobj: {},
+      userEditformErrors: {},
     };
   },
-  mounted() {
-    console.log("this.userEditObj.user_id====>", this.userEditObj.user_id);
 
-    this.usermodelEditobj = {
-      firstname: this.userEditObj.firstname,
-      lastname: this.userEditObj.lastname,
-      email: this.userEditObj.email,
-      mobile: this.userEditObj.mobile,
-      userrole: this.userEditObj.userrole,
-      user_id: this.userEditObj.user_id,
-    };
+  watch: {
+    userEditObj: {
+      immediate: true,
+      handler(newVal) {
+        this.usermodelEditobj = {
+          firstname: newVal.firstname,
+          lastname: newVal.lastname,
+          email: newVal.email,
+          mobile: newVal.mobile,
+          userrole: newVal.userrole,
+          user_id: newVal.user_id,
+        };
+      },
+    },
   },
   methods: {
     closeEditModel() {
       this.$emit("close-edit-model");
     },
     edituserform() {
-      this.$emit("edituserform", this.usermodelEditobj);
+      this.userEditformErrors = {};
+
+      if (
+        !this.usermodelEditobj.firstname ||
+        this.usermodelEditobj.firstname.trim().length == 0
+      ) {
+        this.userEditformErrors.firstname = "Firstname is required";
+      } else {
+        this.userEditformErrors.firstname = "";
+      }
+
+      if (
+        !this.usermodelEditobj.lastname ||
+        this.usermodelEditobj.lastname.trim().length == 0
+      ) {
+        this.userEditformErrors.lastname = "Lastname is required";
+      } else {
+        this.userEditformErrors.lastname = "";
+      }
+
+      if (
+        !this.usermodelEditobj.email ||
+        this.usermodelEditobj.email.trim().length == 0
+      ) {
+        this.userEditformErrors.email = "Email is required";
+      } else if (!this.isValidEmail(this.usermodelEditobj.email)) {
+        this.userEditformErrors.email = "Invalid email format";
+      } else {
+        this.userEditformErrors.email = "";
+      }
+
+      if (
+        !this.usermodelEditobj.mobile ||
+        this.usermodelEditobj.mobile.trim().length == 0
+      ) {
+        this.userEditformErrors.mobile = "Mobile is required";
+      } else {
+        this.userEditformErrors.mobile = "";
+      }
+
+      if (
+        !this.usermodelEditobj.userrole ||
+        this.usermodelEditobj.userrole.trim().length == 0
+      ) {
+        this.userEditformErrors.userrole = "userrole is required";
+      } else {
+        this.userEditformErrors.userrole = "";
+      }
+
+      const hasErrors = Object.values(this.userEditformErrors).some(
+        (error) => error !== ""
+      );
+
+      if (!hasErrors) {
+        this.$emit("edituserform", this.usermodelEditobj);
+      }
+    },
+    isValidEmail(email) {
+      // Email validation logic
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
     },
   },
 };

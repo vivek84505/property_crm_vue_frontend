@@ -131,7 +131,6 @@ export default {
       this.addUser(payload);
       this.fetchUsersAll();
       this.showAlerts();
-      console.log("this main alertData=======>", this.alertData);
     },
     async edituserform(payload) {
       payload.user_id = payload.user_id.toString();

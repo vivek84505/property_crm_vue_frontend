@@ -67,8 +67,6 @@ export default {
         });
     },
     async updateUser({ commit }, payload) {
-      // let ref = this;
-      console.log("edit payload", JSON.stringify(payload));
       axios({
         method: "post",
         url: "http://localhost:8081/api/v1/updateuser",
@@ -76,7 +74,6 @@ export default {
         headers: { "Content-Type": "application/json" },
       })
         .then(function (response) {
-          // console.log("Update user Response======>", response);
           if (response.data.status.toLowerCase() == "sucess") {
             let alertObj = {
               showSuccessMessage: true,

@@ -63,4 +63,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.form-error {
+  color: red;
+}
+</style>

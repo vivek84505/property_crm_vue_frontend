@@ -12,7 +12,6 @@ export default {
   },
   mutations: {
     SetLeadSource(state, payload) {
-      // console.log("leadsource added mutation====>", payload);
       state.leadsourcedata = payload;
     },
     setAlertData(state, payload) {
@@ -102,7 +101,7 @@ export default {
             lastmodifiedby: data[id].lastmodifiedby,
           });
         }
-        console.log("leadsource getall results====>", results);
+
         commit("SetLeadSource", results);
       });
     },

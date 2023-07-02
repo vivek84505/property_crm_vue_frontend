@@ -25,6 +25,11 @@
                   name="firstname"
                   class="form-control form-control-default"
                 />
+                <span
+                  v-if="leadsourceEditErrors.leadsource"
+                  class="form-error"
+                  >{{ this.leadsourceEditErrors.leadsource }}</span
+                >
               </div>
 
               <input
@@ -60,14 +65,10 @@ export default {
   data() {
     return {
       leadsourcemodelEditobj: {},
+      leadsourceEditErrors: {},
     };
   },
   mounted() {
-    console.log(
-      "this.leadsourceEditObj.user_id====>",
-      this.leadsourceEditObj.user_id
-    );
-
     this.leadsourcemodelEditobj = {
       leadsourceid: this.leadsourceEditObj.leadsourceid,
       leadsource: this.leadsourceEditObj.leadsource,
@@ -79,7 +80,24 @@ export default {
       this.$emit("close-edit-model");
     },
     editleadsourceform() {
-      this.$emit("editleadsourceform", this.leadsourcemodelEditobj);
+      this.leadsourceEditErrors = {};
+
+      if (
+        !this.leadsourcemodelEditobj.leadsource ||
+        this.leadsourcemodelEditobj.leadsource.trim().length == 0
+      ) {
+        this.leadsourceEditErrors.leadsource = "Lead Source is required";
+      } else {
+        this.leadsourceEditErrors.leadsource = "";
+      }
+
+      const hasErrors = Object.values(this.leadsourceEditErrors).some(
+        (error) => error !== ""
+      );
+
+      if (!hasErrors) {
+        this.$emit("editleadsourceform", this.leadsourcemodelEditobj);
+      }
     },
   },
 };

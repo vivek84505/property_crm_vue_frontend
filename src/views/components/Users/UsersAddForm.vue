@@ -19,6 +19,9 @@
               name="firstname"
               class="form-control form-control-default"
             />
+            <span v-if="userformErrors.firstname" class="form-error"
+              >{{ this.userformErrors.firstname }}
+            </span>
           </div>
           <div class="col-md-4">
             <label>Lastname</label>
@@ -30,18 +33,25 @@
               name="lastname"
               class="form-control form-control-default"
             />
+            <span v-if="userformErrors.lastname" class="form-error"
+              >{{ this.userformErrors.lastname }}
+            </span>
           </div>
 
           <div class="col-md-4">
             <label>Email</label>
             <input
+              novalidate
               v-model="userformdata.email"
               id="email"
-              type="email"
+              type="text"
               placeholder="email"
               name="email"
               class="form-control form-control-default"
             />
+            <span v-if="userformErrors.email" class="form-error"
+              >{{ this.userformErrors.email }}
+            </span>
           </div>
 
           <div class="col-md-4">
@@ -54,6 +64,9 @@
               v-model="userformdata.mobile"
               id="mobile"
             />
+            <span v-if="userformErrors.mobile" class="form-error"
+              >{{ this.userformErrors.mobile }}
+            </span>
           </div>
 
           <div class="col-md-4">
@@ -70,6 +83,9 @@
               <option value="superadmin">Super Admin</option>
               <option value="user">User</option>
             </select>
+            <span v-if="userformErrors.userrole" class="form-error"
+              >{{ this.userformErrors.userrole }}
+            </span>
           </div>
           <div class="col-md-4">
             <div class="text-center">
@@ -108,14 +124,74 @@ export default {
         mobile: "",
         userrole: "",
       },
+      userformErrors: {},
     };
   },
   methods: {
     ...mapActions("users", ["addUser", "fetchUsersAll"]),
-    adduserform() {
-      // this.addUser(this.userformdata);
 
-      this.$emit("adduserform", this.userformdata);
+    adduserform() {
+      this.userformErrors = {};
+
+      if (
+        !this.userformdata.firstname &&
+        this.userformdata.firstname.trim().length == 0
+      ) {
+        this.userformErrors.firstname = "Firstname is required";
+      } else {
+        this.userformErrors.firstname = "";
+      }
+
+      if (
+        !this.userformdata.lastname &&
+        this.userformdata.lastname.trim().length == 0
+      ) {
+        this.userformErrors.lastname = "Lastname is required";
+      } else {
+        this.userformErrors.lastname = "";
+      }
+
+      if (
+        !this.userformdata.email &&
+        this.userformdata.email.trim().length == 0
+      ) {
+        this.userformErrors.email = "Email is required";
+      } else if (!this.isValidEmail(this.userformdata.email)) {
+        this.userformErrors.email = "Invalid email format";
+      } else {
+        this.userformErrors.email = "";
+      }
+
+      if (
+        !this.userformdata.mobile &&
+        this.userformdata.mobile.trim().length == 0
+      ) {
+        this.userformErrors.mobile = "Mobile is required";
+      } else {
+        this.userformErrors.mobile = "";
+      }
+
+      if (
+        !this.userformdata.userrole &&
+        this.userformdata.userrole.trim().length == 0
+      ) {
+        this.userformErrors.userrole = "userrole is required";
+      } else {
+        this.userformErrors.userrole = "";
+      }
+
+      const hasErrors = Object.values(this.userformErrors).some(
+        (error) => error !== ""
+      );
+
+      if (!hasErrors) {
+        this.$emit("adduserform", this.userformdata);
+      }
+    },
+    isValidEmail(email) {
+      // Email validation logic
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
     },
   },
 

@@ -113,9 +113,7 @@ export default {
       img6,
     };
   },
-  computed() {
-    console.log("child userlist=======>", this.userlist);
-  },
+  computed() {},
   methods: {
     openEdituserForm(userid) {
       this.$emit("open-edit-user-form", userid);
